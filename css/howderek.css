@@ -1,0 +1,85 @@
+body, html {
+    background-color:#fff;
+    padding:0;
+    margin:0;
+	overflow-x:hidden;
+}
+
+button, input {
+    width:100%;
+}
+
+#bigBar {
+    font-size:2em;
+    height:2em;
+}
+
+
+img {
+    display:block; 
+    width:120px;
+    margin: 0px auto 40px auto;
+}
+
+#notify {
+    position:fixed;
+    top:-1px;
+    right:5%;
+    width:90%;
+    background-color:rgb(255,255,255);
+    font-size:1.4em;
+    padding:30px 0 30px 30px; 
+    z-index:1000;
+    border:1px solid #aaa;
+    display:none;
+}
+
+.header {
+    height:300px;
+    margin:-2px 0px 7% 0px;
+    background-image:url('../img/snow.jpg');
+    background-size:3200px;
+    background-attachment:fixed;
+    background-position: -2950px -550px;      
+}
+
+.header h1 {
+    font-family: 'Book Antiqua", Palatino', 'Palatino Linotype', serif;
+    color:white;
+    text-shadow:10px #000 0px 0px;
+    width:100%;
+    margin:230px 0px 0px 0px;
+    font-size:6em;
+    text-align:center;
+    overflow:hidden;
+    height:80px;
+}
+
+.middle {
+    width:100%;
+    text-align:center;
+}
+
+.main {
+	margin-bottom: 7%;
+}
+
+.longbox p {
+    font-family: 'Book Antiqua", Palatino', 'Palatino Linotype', serif;
+    font-size:1.5em;
+    overflow-y:hidden;
+    text-align:justify;
+}
+
+.longbox h1 {
+    padding: 20px;
+    text-align:center;
+}
+
+img {
+	border:1px solid #ccc;
+	max-width:149px;
+	margin:10px auto;
+	padding:10px;
+	width:90%;
+}

@@ -1,0 +1,438 @@
+/***********************************/
+/*          CYCLE FITNESS          */
+/*      (c) 2015 Derek Howard      */
+/*   mobile first and responsive   */
+/***********************************/
+/* Thanks for looking at my code!
+ * first, some comments about the comments and whole code:
+ *   - these comments would not exist in a production environment, and were kept since my code is being read by other people
+ *   - many of the class names are shared with Twitter Bootstrap, but no code was copied. The entire project was created by me!
+ *   - the code is somewhat organized from top to bottom of the page, but categories matter more than order of appearance.
+ *
+ * Now let's get to the CSS!
+ * box-sizing is pretty much the best thing to ever happen to web design
+ * It's bringing a tear to my eye just thinking about it.*/
+
+* {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/**************/
+/* typography */
+/**************/
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    margin: 0 auto;
+    -webkit-font-smoothing: subpixel-antialiased;
+    width: 100%;
+    min-height: 100%;
+    background-color: #fff;
+}
+
+p,
+ol,
+ul,
+address,
+phone {
+    font-family: Palatino, "Palatino Linotype", serif;
+    font-size: 1.2em;
+    letter-spacing: 0em;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+    font-family: LeagueSpartan;
+    text-rendering: geometricPrecision;
+    padding: .2em 0;
+    text-decoration: none;
+    line-height: 0;
+}
+
+p a {
+    font-family: Palatino, "Palatino Linotype", serif;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 1px solid #ddd;
+}
+/**************/
+/*   colors   */
+/**************/
+
+.primary {
+    background-color: #3595d1;
+}
+
+.danger {
+    background-color: #d13535;
+}
+
+.success {
+    background-color: #35d141;
+}
+
+.control {
+    background-color: #868686;
+}
+/**************/
+/*   utility  */
+/**************/
+
+.responsive {
+    display: block;
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+/* desktop only */
+
+.desktop {
+    display: none;
+}
+/**************/
+/*    forms   */
+/**************/
+
+input,
+button,
+textarea {
+    width: 100%;
+    font-family: LeagueSpartan;
+    font-size: 1.2em;
+    padding: 1em 0 .6em 0;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=phone],
+textarea {
+    border: 0;
+    background-color: rgba(239, 239, 239, 0.75);
+    margin: 0 0px 5px 0;
+}
+
+textarea {
+    min-height: 15em;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=phone]:focus,
+textarea:focus {
+    background-color: #f8f8f8;
+    outline: 0;
+    border: 0;
+}
+
+input[type=button],
+input[type=submit],
+button {
+    cursor: pointer;
+    background-color: #bbbbbc;
+    color: #333;
+    margin: 5px 0 5px 0;
+    border: 0;
+}
+
+input[type=button]:active,
+input[type=submit]:active,
+button:active {
+    background-image: url('overlay.png');
+}
+
+button.primary {
+    color: #fff;
+}
+/**************/
+/*  content   */
+/**************/
+
+header,
+section,
+footer,
+.col {
+    padding: 20px;
+    width: 100%;
+}
+
+header {
+    height: 200px;
+    float: left;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 2.5em;
+}
+
+header a {
+    color: #141215;
+}
+
+section {
+    float: left;
+}
+
+section:first-of-type {
+    margin-top: -120px;
+}
+
+section:first-of-type {
+    float: left;
+}
+
+section h1,
+footer h3 {
+    text-align: center;
+}
+
+section p,
+footer p {
+    text-align: left;
+}
+
+img {
+    width: 100%;
+}
+
+.projects p {
+    padding-bottom: 40px;
+    margin: 0 0 40px 0;
+}
+
+.projects img {
+    border: 1px solid #ddd;
+}
+
+.bio p {
+    margin: 1em 0 1em 0;
+}
+
+footer div.col,
+.faq div.col {
+    padding: 25px 0;
+}
+
+footer div.col:last-of-type {
+    border-bottom: 0;
+}
+
+ol,
+ul {
+    text-align: left;
+}
+/**************/
+/*   social   */
+/**************/
+
+#social {
+    font-size: 1em;
+    width: 300px;
+    position: relative;
+    float: right;
+    margin-top: -95px;
+    height: 0;
+    text-align: right;
+}
+
+#social a {
+    color: rgba(20, 18, 21, 0.5);
+}
+
+#social a:hover {
+    color: rgba(20, 18, 21, 0.7);
+}
+
+#social a:active {
+    color: #000;
+}
+
+.github {
+    display: none;
+}
+
+#modal {
+    padding: 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    background-color: rgba(221, 233, 244, 0.8);
+    z-index: 100;
+}
+
+#mail {
+    margin: 20px 0 0 0;
+}
+
+.bio img {
+    max-width: 200px;
+    margin: auto;
+    display: block;
+}
+
+#top {
+    display: block;
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 3em;
+    padding-top: 27px;
+    margin: 0 auto 40px auto;
+}
+
+@media (min-width: 900px) {
+    #content {
+        width: 95%;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+    h1 {
+        line-height: 1em;
+        font-size: 2.5em;
+    }
+    h2 {
+        line-height: 1em;
+        font-size: 2em;
+    }
+    h3 {
+        font-size: 1em;
+    }
+    .container,
+    header,
+    section,
+    footer {
+        width: 100%;
+        overflow: hidden;
+    }
+    header {
+        height: 100px;
+        padding: 0;
+    }
+    header div:first-of-type {
+        width: 100%;
+        float: left;
+    }
+    #social {
+        height: 0;
+        position: relative;
+        margin-top: -113px;
+        float: right;
+    }
+    .github {
+        display: inline;
+    }   
+
+    .row {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    .col {
+        display: table-cell;
+        vertical-align: top;
+    }
+    .center {
+        vertical-align: middle;
+        text-align: center;
+    }
+    section {
+        display: block;
+        float: left;
+    }
+    section:first-of-type {
+        margin-top: -20px;
+    }
+    .mobile {
+        display: none;
+    }
+    /* 12-column grid percentages */
+    /* col-* class names inspired */
+    /* by Twitter Bootstrap       */
+    
+    .col-1 {
+        width: 8.333333%;
+    }
+    .col-2,
+    .eighth {
+        width: 16.666667%;
+    }
+    .col-3,
+    .fourth {
+        width: 25%;
+    }
+    .col-4,
+    .third {
+        width: 33.333333%;
+    }
+    .col-5 {
+        width: 41.666667%;
+    }
+    .col-6,
+    .half {
+        width: 50%;
+    }
+    .col-7 {
+        width: 58.333333%;
+    }
+    .col-8,
+    .two-thirds {
+        width: 66.666667%;
+    }
+    .col-9,
+    .three-fourths {
+        width: 75%;
+    }
+    .col-10 {
+        width: 83.333333%;
+    }
+    .col-11 {
+        width: 91.666667%;
+    }
+    .col-12,
+    .full {
+        width: 100%;
+    }
+    footer p {
+        color: #111;
+        margin: 0;
+        font-family: Palatino, "Palatino Linotype", serif;
+    }
+    .projects p {
+        margin: 0;
+        text-align: left;
+        border-bottom: 0;
+    }
+    .desktop {
+        display: inline-block;
+    }
+    #top {
+        display: none;
+    }
+}

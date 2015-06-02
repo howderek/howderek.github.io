@@ -1,0 +1,110 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(46, 52, 54);
+}
+header {
+    color: #FFF;
+    padding: 20px 0px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+header h1 {
+    height: 80px;
+    overflow:hidden;
+    margin: 10px;
+}
+#notification {
+    display: none;
+    z-index: 100000000;
+    background-color: #FFF;
+    width: 80%;
+    height: 5%;
+    border: 5px #000 solid;
+    position: fixed;
+    top: -5px;
+    left: -5px;
+    border-radius: 5px;
+    float: right;
+    padding: 40px 10%;
+    font-size: 1.5em;
+    background-color: rgba(255, 255, 255, .95);
+}
+#notification button {
+    float: right;
+    margin-top: -5px;
+    margin-left: 20px;
+}
+nav a, nav a:visited {
+    margin: 0px 0px;
+    opacity: .3;
+    color: #FFF;
+}
+nav a:active, nav a:hover {
+    color:rgb(239, 41, 41);
+    opacity: 1;
+}
+nav span {
+    opacity: .6;
+}
+article {
+    box-shadow: 0px 0px 50px 20px #111;
+    padding: 30px 5%;
+    width: 70%;
+    margin: 80px auto;
+    font-size: 1.3em;
+    background-color: #FFF;
+}
+a {
+    color: rgb(32, 74, 135);
+    text-decoration: none;
+}
+a:active, a:hover {
+    color: rgb(114, 159, 207);
+    opacity: 1;
+}
+p {
+    margin: 1em 0px;
+}
+button {
+    font-size: 1em;
+}
+footer {
+    color: #FFF;
+    line-height: 1em;
+    font-size: 1.7em;
+    text-align:center;
+    bottom: 0px;
+    height: 80px;
+    width: 100%;
+    background-size: 200px;
+    background-repeat:no-repeat;
+    z-index: -10;
+}
+.seperator {
+    width:100%;
+    color:#FFF;
+    font-size:2em;
+    text-align:center;
+}
+.hidden {
+	display: none;
+}
+.icon {
+	width: 18.5%;
+	min-width: 150px;
+	border: 1px solid #000;
+	margin: 5px;
+	cursor: pointer;
+}
+#project {
+	text-align: center;
+	line-height: 15px;
+}
+#desc {
+	text-align:center;
+	font-size: .8em;
+	color: #555;
+}

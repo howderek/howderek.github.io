@@ -1,0 +1,26 @@
+html {
+	font-family: sans-serif;
+}
+
+body {
+	background-image: url("awesome-face-nyan.gif");
+}
+
+#unicorn {
+	width: 30%;
+	position: fixed;
+	bottom: 0px;
+	left:-500px;
+}
+
+#unicornText {
+	background-color: #FFF;
+	padding: 10px;
+	font-size: 2em;
+	float: right;
+	color: #000;
+}
+
+#avatar {
+	margin: 10px;
+}

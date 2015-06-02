@@ -1,0 +1,592 @@
+/***********************************/
+/*          CYCLE FITNESS          */
+/*      (c) 2015 Derek Howard      */
+/*   mobile first and responsive   */
+/***********************************/
+
+/* Thanks for looking at my code!
+ * first, some comments about the comments and whole code:
+ *   - these comments would not exist in a production environment, and were kept since my code is being read by other people
+ *   - many of the class names are shared with Twitter Bootstrap, but no code was copied. The entire project was created by me!
+ *   - the code is somewhat organized from top to bottom of the page, but categories matter more than order of appearance.
+ *
+ * Now let's get to the CSS!
+ * box-sizing is pretty much the best thing to ever happen to web design
+ * It's bringing a tear to my eye just thinking about it.*/
+
+* {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/**************/
+/* typography */
+/**************/
+
+body, html {
+    margin: 0;
+    padding: 0;
+    margin: 0 auto;
+    -webkit-font-smoothing: subpixel-antialiased; 
+    width: 100%;
+    min-height: 100%;
+    background-color: #d3d6d9;
+}
+
+p, ol, ul, address, phone {
+    font-family: "Georgia", "Palatino Linotype", "Palatino", serif;
+    font-size: 1.2em;
+    letter-spacing: 0em;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, a {
+    font-family: LeagueSpartan;
+    text-rendering: geometricPrecision;
+    margin: 0;
+    padding: .2em 0;
+    text-decoration: none;
+}
+
+p a {
+    font-family: "Georgia", "Palatino Linotype", "Palatino", serif;
+}
+
+h1 {line-height: 1em; font-size: 2em;}
+h2 {line-height: 1.75em; font-size: 1.5em;}
+h3 {line-height: 1.5em; font-size: 1.25em;}
+
+/**************/
+/*   colors   */
+/**************/
+
+.primary {
+    background-color: #3595d1;
+}
+
+.danger {
+    background-color: #d13535;
+}
+
+.success {
+    background-color: #35d141;
+}
+
+.control {
+    background-color: #868686;
+}
+
+/**************/
+/*   utility  */
+/**************/
+
+.responsive {
+    display: block;
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.container {
+    max-width: 940px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+/* desktop only */
+.desktop {
+    display: none;
+}
+
+/**************/
+/*    forms   */
+/**************/
+
+input, button, textarea {
+    width: 100%;
+    font-family: LeagueSpartan;
+    font-size: 1.2em;
+    padding: 1em 0 .6em 0;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=phone], textarea {
+    border: 0;
+    background-color: rgba(239, 239, 239, 0.75);
+    margin: 0 0px 5px 0;
+}
+
+textarea {
+    min-height: 15em;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=phone]:focus, textarea:focus {
+    background-color: #f8f8f8;
+    outline: 0;
+    border: 0;
+}
+
+input[type=button], input[type=submit], button {
+    cursor: pointer;
+    background-color: #bbbbbc;
+    color: #333;
+    margin: 5px 0 5px 0;
+    border: 0;
+}
+
+input[type=button]:active, input[type=submit]:active, button:active {
+    background-image: url('overlay.png');
+}
+
+button.primary {
+    color: #fff;
+}
+
+/**************/
+/*    nav     */
+/**************/
+
+#dropdown {
+    height: 30px;
+    width: 40px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+#dropdown span {
+    display: block;
+    height: 6px;
+    width: 100%;
+    background-color: #333;
+    margin-top: 5px;
+}
+
+nav.visible {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: calc(100% - 80px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+nav a {
+    width: 100%;
+    padding: 20px;
+    height: 50px;
+    float: left;
+    border-top: 1px solid #d3d6d9;
+}
+
+nav a.active, nav a:active {
+    background-color: rgba(109, 109, 109, 0.13);
+    color: #000;
+}
+
+/**************/
+/* background */
+/**************/
+
+.blurryCyclist {
+    background: scroll url('../img/bg.jpg') 58% 50%/500% #200;
+}
+
+
+/**************/
+/*  content   */
+/**************/
+
+header, section, footer {
+    padding: 20px;
+    width: 100%;
+}
+
+section:first-of-type {
+    padding-top: 70px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 80px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+header a {
+    color: #141215;
+}
+
+section h1, footer h3 {
+    text-align: center;
+}
+
+section p, footer p {
+    text-align: justify;
+}
+
+img {
+    width: 100%;
+}
+
+.logos img {
+    display: block;
+    width: 200px;
+    margin: auto;
+    padding: 0 1.25% 0 0;
+}
+ 
+section.one {
+    padding: calc(10% + 80px) 20px calc(10%) 20px;
+    color: #fff;
+}
+
+footer {
+    background-color: #d3d6d9;
+}
+
+footer div.col, .faq div.col {
+    padding: 25px 0;
+}
+
+.faq {
+    background-color: #fff;
+    
+}
+
+footer div.col:last-of-type {
+    border-bottom: 0;
+}
+
+ol, ul {
+    text-align: left;
+}
+
+#social {
+    font-size: 1.3em;
+    position: fixed;
+    bottom: 20px;
+    right: calc(50% - 75px);
+    text-align: right;
+    z-index: 101;
+    width: 150px;
+} 
+
+#social a {
+    color: rgba(20, 18, 21, 0.5);
+}   
+
+#social a:hover {
+    color: rgba(20, 18, 21, 0.7);
+}   
+
+#social a:active {
+    color: #000;
+}
+
+/**************/
+/*   events   */
+/**************/
+
+.event {
+    text-align: left;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    border-bottom: 5px solid #eee;
+}
+
+.event:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.event h1 {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.date {
+    width: 100%;
+    height: 100px;
+    font-family: LeagueSpartan;
+}
+
+.date div.month {
+    background-color: #3595d1;
+    color: #121212;
+    padding: 7px 10px;
+    height: 30px;
+    width: 120px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+
+.date div.day {
+    color: #3595d1;
+    font-family: LeagueSpartan;
+    text-transform: capitalize;
+    background-color: #121212;
+    padding: 15px 10px;
+    font-size: 2.5em;
+    height: 70px;
+    width: 120px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+}
+
+.description {
+    margin: 25px auto 0px auto;
+}
+
+#modal {
+    padding: 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    background-color: rgba(221, 233, 244, 0.8);
+    z-index: 100;
+}
+
+/*######################################################
+#                                                      #
+#    /**\   /****   ***/  /*  /*  *****  *^*   ****    #
+#    /*  *  /      **     *  *      *   *   *  *   *   #
+#    /*   * /****   **    ***       *  *     * ****    #
+#    /*  *  /         **  *  *      *   *   *  *       #
+#    /**/   /****  /***   /*  \*    *    *_*   *       #
+#                                                      #
+######################################################*/
+
+/* to make it easier to find where my desktop styles are */
+
+@media (min-width: 900px) {
+    
+    body, html, #content {
+        height: 100%;
+    }
+    
+    h1 {line-height: 1em; font-size: 2.5em;}
+    h2 {line-height: 1em; font-size: 2em;}
+    h3 { font-size: 1em;}
+    
+    
+    .container, header, section, footer {
+        width: 100%;
+    }
+    
+    header {
+        width: 100%;
+        height: 90px;
+        padding: 20px 50px;
+    }
+    
+    header div:first-of-type {
+        text-align: left;
+        float: left;
+        width: 400px;
+    }
+    
+    .row {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    nav {
+        position: fixed;
+        left: 340px;
+        top: 30px;
+        text-align: center;
+    }
+    
+    nav a {
+        border-top: 0;
+        color: rgba(20, 18, 21, 0.5);
+        float: left;
+        width: 80px;
+        height: 30px;
+        padding: 7px 5px 5px 5px;
+    }
+    
+    .col {
+        display: table-cell;
+        vertical-align: top;
+    }
+    
+    .center {
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    section .row {
+        border-spacing: 5px 0;
+    }
+    
+    .desktop {
+        display: block;
+    }
+    
+    .mobile {
+        display: none;
+    }
+    
+    /* 12-column grid percentages */
+    /* col-* class names inspired */
+    /* by Twitter Bootstrap       */
+    .col-1 { width: 8.333333%; }
+    .col-2, .eighth { width: 16.666667%; }
+    .col-3, .fourth { width: 25%; }
+    .col-4, .third { width: 33.333333%; }
+    .col-5 { width: 41.666667%; }
+    .col-6, .half { width: 50%; }
+    .col-7 { width: 58.333333%; }
+    .col-8, .two-thirds { width: 66.666667%; }
+    .col-9, .three-fourths { width: 75%; }
+    .col-10 { width: 83.333333%; }
+    .col-11 { width: 91.666667%; }
+    .col-12, .full { width: 100%; }
+    
+    /**************/
+    /* background */
+    /**************/
+
+    .blurryCyclist {
+        background: scroll url('../img/bg.jpg') 98% 55%/140% #200;
+    }
+    
+    /**************/
+    /*   social   */
+    /**************/
+
+    #social {
+        font-size: 1em;
+        position: fixed;
+        top: 20px;
+        right: 50px;
+        text-align: right;
+    }
+    
+    section:first-of-type {
+        padding-top: 100px;
+    }
+    
+    section.one {
+        display: block;
+        width: 100%;
+        min-height: 525px;
+        padding: calc(5% + 100px) 50px 5% 50px;
+    }
+    
+    section.one h1 {
+        font-size: 2em;
+    }
+    
+    .one .row {
+        /*background-color: rgba(0, 0, 0, 0.6);*/
+        width: 50%;
+        margin-left: 50%;
+        margin-top: 0;
+    }
+    
+    .logos img {
+        float: left;
+        width: 100%;
+        padding: 0;
+    }
+    
+    footer div.col, .faq div.col {
+        border-right: 2px solid #ccc;
+        padding: 10px 50px 20px 50px;
+        border-bottom: 0;
+    }
+    
+    footer div.col:last-of-type, .faq div.col {
+        border-right: 0;
+    }
+    
+    footer {
+        padding: 10px 0px 30px 0px;
+        height: calc(100% - 950px);
+    }
+    
+    footer p {
+        color: #111;
+        margin: 0;
+        font-family: "Georgia", "Palatino Linotype", "Palatino", serif;
+    }
+    
+    footer button {
+        margin-top: 20px;
+    }
+    
+    div.first {
+        width: 340px;
+    }
+    
+    .event {
+        margin: 0;
+        border-bottom: 0;
+    }
+    
+    .date {
+        width: 120px;
+        height: 100px;
+        font-family: LeagueSpartan;
+        float: left;
+        margin: 0;
+    }
+    
+    .month, .day {
+        margin: 0;
+    }
+    
+    .description {
+        width: calc(100% - 140px);
+        float: left;
+        margin: 0 0 0 20px;
+    }
+    
+    .description h1 {
+        padding-top: .5em;
+        line-height: .2em;
+    }
+    
+    #overlay {
+        position: fixed;
+        z-index: 99;
+        background-color: rgba(0, 0, 0, .5);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    #modal {
+        padding: 25px 50px;
+        position: fixed;
+        top: 20%;
+        right: calc(50% - 350px);
+        width: 50%;
+        height: 60%;
+        width: 700px;
+        background-color: rgba(221, 233, 244, .95);
+        
+    }
+}
