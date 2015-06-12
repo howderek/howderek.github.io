@@ -39,6 +39,7 @@ address,
 phone {
     font-family: Palatino, "Palatino Linotype", serif;
     font-size: 1.2em;
+    line-height: 1.3;
     letter-spacing: 0em;
     text-rendering: optimizeLegibility;
     margin: 0;
