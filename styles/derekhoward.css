@@ -1,5 +1,5 @@
 /***********************************/
-/*          CYCLE FITNESS          */
+/*           howderek.com          */
 /*      (c) 2015 Derek Howard      */
 /*   mobile first and responsive   */
 /***********************************/
@@ -23,7 +23,6 @@
 
 body,
 html {
-    margin: 0;
     padding: 0;
     margin: 0 auto;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -38,11 +37,10 @@ ul,
 address,
 phone {
     font-family: Palatino, "Palatino Linotype", serif;
-    font-size: 1.2em;
-    line-height: 1.5;
-    letter-spacing: 0em;
-    text-rendering: optimizeLegibility;
+    font-size: 18px;
+    line-height: 1.65;
     margin: 0;
+    text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -371,6 +369,9 @@ ul {
     }
     section:first-of-type {
         margin-top: -20px;
+    }
+    section:last-of-type {
+        padding-bottom: 0;
     }
     .mobile {
         display: none;
