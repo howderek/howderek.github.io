@@ -21,6 +21,10 @@ PermissionsManager.prototype.enforce = function (rule) {
         console.log(data.role);
     }
 }
+
+var blocker = new PermissionsManager;
+PermissionsManager.enforce();
+
 //THE LIVE SERVER AND DEV SERVER JS FILES ARE DIFFERENT; (THEY SHOULD BE THE SAME, MINUS THE LINK FOR WHERE CSS IS STORED.)
 $(document).ready(function () {
     if ($("body").attr("class").match(/\bcontext-course_(.[0-9]*)/)) { //check to see if it is a course
