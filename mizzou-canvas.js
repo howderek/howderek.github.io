@@ -1,14 +1,11 @@
-
-
 console.log("Load started");
-
 
 (function($) {
   
   //Object that is responsible for managing what users with different roles can see.
   //Please note that this is not secure, and ideally we would have a backend solution.
   //Ask Derek Howard <howardder@missouri.edu> if you have any questions.
-  ;var PermissionsManager = function () {
+  var PermissionsManager = function () {
     this.elemBlockRules = [];
     this.pageBlockRules = [];
   }
@@ -53,7 +50,7 @@ console.log("Load started");
   })
   blocker.enforce();
   
-  
+  /*
   
   console.log("Function Firing");
   $(document).ready(function() {
@@ -142,5 +139,6 @@ console.log("Load started");
       console.log("No query needed.");
     }
   });
+  */
 })(jQuery);
 console.log("Script Load Finished");
