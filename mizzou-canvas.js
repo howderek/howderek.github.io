@@ -2,27 +2,50 @@
 "use strict";
 //Object that is responsible for managing what users with different roles can see.
 //Please note that this is not secure, and ideally we would have a backend solution.
-function PermissionsManager = function () {
+function PermissionsManager() {
     this.elemBlockRules = [];
     this.pageBlockRules = [];
 }
 
+/*usage:
+
+(PermissionsManager instance).addElementRule({
+	block: ['(USER ROLE YOU WANT TO BLOCK)'],
+	from: ['(jQuery selectors you want to block - must be hidden with CSS first)'],
+	when: 'everywhere/exam (optional, defaults to everywhere)'
+});
+
+*/
 PermissionsManager.prototype.addElementRule = function (rule) {
     this.elemBlockRules.push(rule);
 }
 
 PermissionsManager.prototype.addPageRule = function (rule) {
+	rule.when = rule.when || 'everywhere';
     this.pageBlockRules.push(rule);
 }
 
-PermissionsManager.prototype.enforce = function (rule) {
-    this.elemBlockRules.push(rule);
+PermissionsManager.prototype.enforce = function () {
+	console.log('Enforcing permissions.');
     $.getJSON("api/v1/accounts/self/roles", function (data) {
         console.log(data.role);
+        //The following line is a bit complex, but what it does is it looks to see if the rule goes into
+        //effect everywhere, or if not, it checks to see if it is an exam by looking for an access code.
+        var contextOkay = (this.when === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
+        if (this.block.indexOf(data.role) > -1 && contextOkay) {
+        	for (var i = 0;i < this.from.length; i += 1) {
+        		$(this.from[i]).remove();
+        	}
+        }
     }
 }
 
-var blocker = new PermissionsManager;
+var blocker = new PermissionsManager();
+PermissionsManager.addElementRule({
+	block: ['BR_Teacher', 'BR_Coordinator'],
+	from: ['.page-access-list'],
+	when: 'exam'
+})
 PermissionsManager.enforce();
 
 console.log("Load started");
