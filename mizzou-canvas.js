@@ -31,8 +31,9 @@
   	var startTime = Date.now();
   	var pathArray = window.location.pathname.split( '/' );
       $.getJSON('/api/v1/courses/'+pathArray[2]+'/enrollments?user_id=self', function (data) {
-        //The following line is a bit complex, but what it does is it looks to see if the rule goes into
-        //effect everywhere, or if not, it checks to see if it is an exam by looking for an access code.
+      	console.log(data[0].role);
+        //The following line looks to see if the rule goes into effect everywhere, or if not,
+        // it checks to see if it is an exam by looking for an access code.
         var contextOkay = (this.where === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
         if (this.block.indexOf(data[0].role) > -1 && contextOkay) {
         	for (var i = 0;i < this.from.length; i += 1) {
