@@ -42,7 +42,7 @@ console.log("Load started");
         		$(this.from[i]).remove();
       	}
       }
-    }
+    });
   }
   
   var blocker = new PermissionsManager();
