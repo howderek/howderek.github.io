@@ -1,9 +1,8 @@
-console.log("Load started");
-
 (function($) {
   
   //Object that is responsible for managing what users with different roles can see.
   //Please note that this is not secure, and ideally we would have a backend solution.
+  //(like not at all secure, seriously 0%)
   //Ask Derek Howard <howardder@missouri.edu> if you have any questions.
   var PermissionsManager = function () {
     this.elemBlockRules = [];
@@ -16,29 +15,31 @@ console.log("Load started");
   (PermissionsManager instance).addElementRule({
   	block: ['(USER ROLE YOU WANT TO BLOCK)'],
   	from: ['(jQuery selectors you want to block - must be hidden with CSS first)'],
-  	when: 'everywhere/exam (optional, defaults to everywhere)'
+  	where: 'everywhere/exam (optional, defaults to everywhere)'
   });*/
   PermissionsManager.prototype.addElementRule = function (rule) {
+      rule.where = rule.where || 'everywhere';
       this.elemBlockRules.push(rule);
   }
   
   PermissionsManager.prototype.addPageRule = function (rule) {
-  	rule.when = rule.when || 'everywhere';
     this.pageBlockRules.push(rule);
   }
   
   PermissionsManager.prototype.enforce = function () {
-  	console.log('Enforcing permissions.');
-      $.getJSON("api/v1/accounts/self/roles", function (data) {
-        console.log(data.role);
+  	console.log('Enforcing permissions...');
+  	var startTime = Date.now();
+  	var pathArray = window.location.pathname.split( '/' );
+      $.getJSON('/api/v1/courses/'+pathArray[2]+'/enrollments?user_id=self', function (data) {
         //The following line is a bit complex, but what it does is it looks to see if the rule goes into
         //effect everywhere, or if not, it checks to see if it is an exam by looking for an access code.
-        var contextOkay = (this.when === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
-        if (this.block.indexOf(data.role) > -1 && contextOkay) {
+        var contextOkay = (this.where === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
+        if (this.block.indexOf(data[0].role) > -1 && contextOkay) {
         	for (var i = 0;i < this.from.length; i += 1) {
         		$(this.from[i]).remove();
       	}
       }
+      console.log('Permissions enforced. (' + (Date.now() - startTime) + 'ms)');
     });
   }
   
@@ -46,8 +47,13 @@ console.log("Load started");
   blocker.addElementRule({
   	block: ['BR_Teacher', 'BR_Coordinator'],
   	from: ['.page-access-list'],
-  	when: 'exam'
-  })
+  	where: 'exam'
+  });
+    blocker.addElementRule({
+  	block: ['BR_Teacher', 'BR_Coordinator'],
+  	from: ['.page-access-list'],
+  	where: 'everywhere'
+  });
   blocker.enforce();
   
   /*
