@@ -1,171 +1,80 @@
-(function($) {
-  
-  //Object that is responsible for managing what users with different roles can see.
-  //Please note that this is not secure, and ideally we would have a backend solution.
-  //(like not at all secure, seriously 0%)
-  //Ask Derek Howard <howardder@missouri.edu> if you have any questions.
-  var PermissionsManager = function () {
-    this.elemBlockRules = [];
-    this.pageBlockRules = [];
-  }
-  
-  /*
-  AddElementRule(Object) - Blocks users with certain roles from seeing certain elements
-  usage:
-  (PermissionsManager instance).addElementRule({
-  	block: ['(USER ROLE YOU WANT TO BLOCK)'],
-  	from: ['(jQuery selectors you want to block - must be hidden with CSS first)'],
-  	where: 'everywhere/exam (optional, defaults to everywhere)'
-  });*/
-  PermissionsManager.prototype.addElementRule = function (rule) {
-      rule.where = rule.where || 'everywhere';
-      this.elemBlockRules.push(rule);
-  }
-  
-  PermissionsManager.prototype.addPageRule = function (rule) {
-    this.pageBlockRules.push(rule);
-  }
-  
-  PermissionsManager.prototype.enforce = function () {
-  	var self = this;
-  	console.log('Enforcing permissions...');
-  	var startTime = Date.now();
-  	var pathArray = window.location.pathname.split( '/' );
-      $.getJSON('/api/v1/courses/'+pathArray[2]+'/enrollments?user_id=self', function (data) {
-      	console.log(data[0].role);
-      	console.log(self);
-        //The following line looks to see if the rule goes into effect everywhere, or if not,
-        // it checks to see if it is an exam by looking for an access code.
-        
-        for (var h = 0;h < self.elemBlockRules.length;h += 1) {
-            var rule = self.elemBlockRules[h];
-            var contextOkay = (rule.where === 'everywhere') ? true : ($(':contains("Exam")').length) ? true : false;
-        if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
-        	for (var i = 0;i < rule.from.length; i += 1) {
-        		$(rule.from[i]).remove();
-      		    }
-      	    }
+var PermissionsManager = function () {
+  this.elemBlockRules = [];
+  this.pageBlockRules = [];
+}
+
+/*
+AddElementRule(Object) - Blocks users with certain roles from seeing certain elements
+usage:
+(PermissionsManager instance).addElementRule({
+	block: ['(USER ROLE YOU WANT TO BLOCK)'],
+	from: ['(jQuery selectors you want to block - must be hidden with CSS first)'],
+	where: 'everywhere/exam (optional, defaults to everywhere)'
+});*/
+PermissionsManager.prototype.addElementRule = function (rule) {
+  rule.where = rule.where || 'everywhere';
+  this.elemBlockRules.push(rule);
+}
+
+/*
+AddPageRule(Object) - Blocks users with certain roles from seeing certain elements
+usage:
+(PermissionsManager instance).addPageRule({
+	block: ['(USER ROLE YOU WANT TO BLOCK)'],
+	from: [/regex to match the window.location.pathname/],
+});*/
+PermissionsManager.prototype.addPageRule = function (rule) {
+  this.pageBlockRules.push(rule);
+}
+
+PermissionsManager.prototype.enforce = function () {
+  var self = this;
+  console.log('Enforcing permissions...');
+  var startTime = Date.now();
+  var pathArray = window.location.pathname.split('/');
+  $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function (data) {
+    console.log(data[0].role);
+    console.log(self);
+    //The following line looks to see if the rule goes into effect everywhere, or if not,
+    // it checks to see if it is an exam by looking for an access code.
+
+    for (var h = 0; h < self.elemBlockRules.length; h += 1) {
+      var rule = self.elemBlockRules[h];
+      var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
+      if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
+        for (var i = 0; i < rule.from.length; i += 1) {
+          $(rule.from[i]).remove();
         }
-        for (var h = 0;h < self.pageBlockRules.length;h += 1) {
-            var rule = self.pageBlockRules[h];
-        if (rule.block.indexOf(data[0].role) >= 0) {
-        	for (var i = 0;i < rule.from.length; i += 1) {
-        		if (window.location.pathname === rule.from[i]) {
-	        		document.write("You don't have permission to view this page.");
-      		    }
-      	    }
+      }
+    }
+    for (var h = 0; h < self.pageBlockRules.length; h += 1) {
+      var rule = self.pageBlockRules[h];
+      if (rule.block.indexOf(data[0].role) >= 0) {
+        for (var i = 0; i < rule.from.length; i += 1) {
+          if (rule.from[i].test(window.location.pathname)) {
+            document.write("You don't have permission to view this page.");
+          }
         }
-      console.log('Permissions enforced. (' + (Date.now() - startTime) + 'ms)');
-    });
-  }
-  
-  var blocker = new PermissionsManager();
-  blocker.addElementRule({
-  	block: ['BR_Teacher', 'BR_Coordinator'],
-  	from: ['#right-side'],
-  	where: 'exam'
-  });
-    blocker.addElementRule({
-  	block: ['BR_Teacher', 'BR_Coordinator'],
-  	from: ['.settings'],
-  	where: 'everywhere'
-  });
-      blocker.addPageRule({
-  	block: ['BR_Teacher', 'BR_Coordinator'],
-  	from: ['.settings'],
-  	where: 'everywhere'
-  });
-  blocker.enforce();
-  
-  /*
-  
-  console.log("Function Firing");
-  $(document).ready(function() {
-    console.log("Document Ready Firing");
-    var user_id = null;
-    var course_id = null;
-    var quiz_id = null;
-    
-    try {
-      user_id = ENV.current_user_id;
-      course_id = ENV.COURSE_ID;
-      quiz_id = ENV.QUIZ.id;
+      }
     }
-    catch (ex) {
-      console.log("Missing data");
-      user_id = null;
-      course_id = null;
-      quiz_id = null;
-    }
-    
-    var details_wrapper = $("div#quiz_details_wrapper");
-    if (details_wrapper && (user_id != null) && (course_id != null) && (quiz_id != null)) {
-      console.log("Found #quiz_details_wrapper, fetching results");
-      var m = $.get("https://mk12dev.missouri.edu/lee_test/results/" + user_id + "/" + course_id + "/" + quiz_id)
-      .done(function(d, s) {
-        console.log("Query returned successfully!");  
-	$("div.quiz-submission > div.alert").remove();
-	$("div.quiz-submission > h4").remove();
-	$("div.quiz-submission")
-          .append("<h4>Your Strengths (Items correct)</h4>")
-          .append("<table class=\"table table-bordered ic-Table ic-Table--hover-row ic-Table--striped correct\"><thead><tr><td>Lesson</td><td>Topic</td><td>Objective</td><td>Standard</td></tr></thead><tbody></tbody></table>")
-          .append("<hr/>")
-          .append("<h4>Your Areas for Improvement (Items incorrect)</h4>")
-          .append("<table class=\"table table-bordered ic-Table ic-Table--hover-row ic-Table--striped incorrect\"><thead><tr><td>Lesson</td><td>Topic</td><td>Objective</td><td>Standard</td></tr></thead><tbody></tbody></table>");
-        var results = d;
-        
-	for (var key in d.correct) {
-	  var correctTable = $("div.quiz-submission > table.correct tbody");
-	  if (! $.isEmptyObject(d.correct[key].question_details)) {
-            correctTable
-	      .append($("<tr>")
-		.append($("<td>")
-                  .text(d.correct[key].question_details['lesson']))
-		.append($("<td>")
-              	  .text(d.correct[key].question_details['topic']))
-              	.append($("<td>")
-                  .text(d.correct[key].question_details['objective']))
-                .append($("<td>")
-                  .text(d.correct[key].question_details['standard']))
-	      );
-          }
-          else {
-	    console.log("::", d.correct[key].question_details);
-	  }
-	}
-	
-        for (var key in d.incorrect) {
-	  var incorrectTable = $("div.quiz-submission > table.incorrect tbody");
-	  if (! $.isEmptyObject(d.incorrect[key].question_details)) {
-            incorrectTable
-	      .append($("<tr>")
-		.append($("<td>")
-                  .text(d.incorrect[key].question_details['lesson']))
-		.append($("<td>")
-              	  .text(d.incorrect[key].question_details['topic']))
-              	.append($("<td>")
-                  .text(d.incorrect[key].question_details['objective']))
-                .append($("<td>")
-                  .text(d.incorrect[key].question_details['standard']))
-              );
-          }
-          else {
-	    console.log("::", d.incorrect[key].question_details);
-	  }
-	}
-      })
-      .always(function() {
-        console.log("Finished the query");
-      })
-      .error(function(d, s) {
-        console.log("Error");
-        console.log(s);
-      });
-    }
-    else {
-      console.log("No query needed.");
-    }
+    console.log('Permissions enforced. (' + (Date.now() - startTime) + 'ms)');
   });
-  */
-})(jQuery);
-console.log("Script Load Finished");
+}
+
+var blocker = new PermissionsManager();
+blocker.addElementRule({
+  block: ['BR_Teacher', 'BR_Coordinator'],
+  from: ['#right-side'],
+  where: 'exam'
+});
+blocker.addElementRule({
+  block: ['BR_Teacher', 'BR_Coordinator'],
+  from: ['.settings'],
+  where: 'everywhere'
+});
+blocker.addPageRule({
+  block: ['BR_Teacher', 'BR_Coordinator'],
+  from: [/.settings/],
+});
+
+$(document).ready(function () {blocker.enforce();});
