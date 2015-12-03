@@ -79,4 +79,4 @@ blocker.addPageRule({
   from: [/.settings/],
 });
 
-$(document).ready(blocker.enforce);
+blocker.enforce();
