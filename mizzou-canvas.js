@@ -27,19 +27,26 @@
   }
   
   PermissionsManager.prototype.enforce = function () {
+  	var self = this;
   	console.log('Enforcing permissions...');
   	var startTime = Date.now();
   	var pathArray = window.location.pathname.split( '/' );
       $.getJSON('/api/v1/courses/'+pathArray[2]+'/enrollments?user_id=self', function (data) {
       	console.log(data[0].role);
+      	console.log(self);
         //The following line looks to see if the rule goes into effect everywhere, or if not,
         // it checks to see if it is an exam by looking for an access code.
-        var contextOkay = (this.where === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
-        if (this.block.indexOf(data[0].role) > -1 && contextOkay) {
-        	for (var i = 0;i < this.from.length; i += 1) {
-        		$(this.from[i]).remove();
-      	}
-      }
+        
+        for (var h = 0;h < self.elemBlockRules.length;h += 1) {
+            var rule = self.elemBlockRules[h];
+            var contextOkay = (rule.where === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
+        if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
+        	console.log(rule.from)
+        	for (var i = 0;i < rule.from.length; i += 1) {
+        		$(rule.from[i]).remove();
+      		    }
+      	    }
+        }
       console.log('Permissions enforced. (' + (Date.now() - startTime) + 'ms)');
     });
   }
@@ -47,12 +54,12 @@
   var blocker = new PermissionsManager();
   blocker.addElementRule({
   	block: ['BR_Teacher', 'BR_Coordinator'],
-  	from: ['.page-access-list'],
+  	from: ['#right-side'],
   	where: 'exam'
   });
     blocker.addElementRule({
   	block: ['BR_Teacher', 'BR_Coordinator'],
-  	from: ['.page-access-list'],
+  	from: ['.settings'],
   	where: 'everywhere'
   });
   blocker.enforce();
