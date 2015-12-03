@@ -39,11 +39,19 @@
         
         for (var h = 0;h < self.elemBlockRules.length;h += 1) {
             var rule = self.elemBlockRules[h];
-            var contextOkay = (rule.where === 'everywhere') ? true : ($('.control-label:contains("Access Code")').length) ? true : false;
+            var contextOkay = (rule.where === 'everywhere') ? true : ($(':contains("Exam")').length) ? true : false;
         if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
-        	console.log(rule.from)
         	for (var i = 0;i < rule.from.length; i += 1) {
         		$(rule.from[i]).remove();
+      		    }
+      	    }
+        }
+        for (var h = 0;h < self.pageBlockRules.length;h += 1) {
+            var rule = self.pageBlockRules[h];
+        if (rule.block.indexOf(data[0].role) >= 0) {
+        	for (var i = 0;i < rule.from.length; i += 1) {
+        		if (window.location.pathname === rule.from[i]) {
+	        		document.write("You don't have permission to view this page.");
       		    }
       	    }
         }
@@ -58,6 +66,11 @@
   	where: 'exam'
   });
     blocker.addElementRule({
+  	block: ['BR_Teacher', 'BR_Coordinator'],
+  	from: ['.settings'],
+  	where: 'everywhere'
+  });
+      blocker.addPageRule({
   	block: ['BR_Teacher', 'BR_Coordinator'],
   	from: ['.settings'],
   	where: 'everywhere'
