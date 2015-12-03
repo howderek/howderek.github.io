@@ -29,9 +29,8 @@ PermissionsManager.prototype.addPageRule = function (rule) {
 
 PermissionsManager.prototype.enforce = function () {
   var self = this;
-  console.log('Enforcing permissions...');
-  var startTime = Date.now();
   var pathArray = window.location.pathname.split('/');
+  //get the permissions of the current user
   $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function (data) {
     console.log(data[0].role);
     console.log(self);
@@ -57,10 +56,13 @@ PermissionsManager.prototype.enforce = function () {
         }
       }
     }
-    console.log('Permissions enforced. (' + (Date.now() - startTime) + 'ms)');
   });
 }
 
+
+/*************************/
+/*      MU K12 Rules     */
+/*************************/
 var blocker = new PermissionsManager();
 blocker.addElementRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
@@ -77,4 +79,4 @@ blocker.addPageRule({
   from: [/.settings/],
 });
 
-$(document).ready(function () {blocker.enforce();});
+$(document).ready(blocker.enforce);
