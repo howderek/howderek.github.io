@@ -62,15 +62,14 @@ PermissionsManager.prototype.enforce = function() {
           }
         }
         console.log('Context is ' + contextOkay);
+        //is this a rule we should enforce?
       if ((rule.block.indexOf(data[0] ? data[0].role : 'everyone') >= 0) && contextOkay) {
         console.log('Disallowed. Blocking.');
-        $(rule.from.join(',')).remove();
-        if (rule.custom) {
-          rule.custom();
-        }
+        if (rule.from) { $(rule.from.join(',')).remove(); }
+        if (rule.custom) { rule.custom(); }
       } else {
         console.log('Allowed. Fixing.');
-        $(rule.from.join(',')).show();
+        $(rule.from.join(',')).fadeIn();
       }
       //iterate to the next rule
       }
