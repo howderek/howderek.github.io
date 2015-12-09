@@ -101,7 +101,7 @@ blocker.addRule({
 //prevent BR_Teachers/BR_Coordinators from accessing the Settings page via URL
 blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
-  from: ['body'],
+  from: ['#wrapper'],
   pages: [/.settings/],
   where: 'everywhere'
 });
