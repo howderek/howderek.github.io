@@ -10,8 +10,7 @@ For help, contact the author: Derek Howard <howardder@missouri.edu>
 
 
 var PermissionsManager = function() {
-  this.elemBlockRules = [];
-  this.pageBlockRules = [];
+  this.rules = [];
 }
 
 /* 
@@ -27,7 +26,7 @@ PermissionsManager.addElementRule(Object) - Blocks users with certain roles from
 */
 PermissionsManager.prototype.addRule = function(rule) {
   rule.where = rule.where || 'everywhere';
-  this.elemBlockRules.push(rule);
+  this.rules.push(rule);
   $(rule.from.join(',')).hide();
 }
 
@@ -46,32 +45,34 @@ PermissionsManager.prototype.enforce = function() {
   var pathArray = window.location.pathname.split('/');
   //get the permissions of the current user
   $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
-      //loop through the rules
-      for (var h = 0; h < self.elemBlockRules.length; h += 1) {
-        var rule = self.elemBlockRules[h];
+    console.log('Got request...carrying on.');
+    console.log(data);
+      for (var h = 0; h < self.rules.length; h += 1) {
+        console.log('Enforcing rule ' + (h+1));
+        var rule = self.rules[h]
         //The following line looks to see if the rule goes into effect everywhere, or if not,
         //it checks to see if it is an exam by looking for the text "exam" or "final" on the page.
         var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
         //check if the rule applies, and if so remove the elements from the DOM
         if (rule.pages) {
-          for (var i = 0; i < rules.pages.length; i += 1) {
+          for (var i = 0; i < rule.pages.length; i += 1) {
             if (rule.pages[i].test(window.location.pathname)) {
               contextOkay = true;
             }
           }
         }
-      if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
-        for (var i = 0; i < rule.from.length; i += 1) {
-          $(rule.from[i]).remove();
-        }
+        console.log('Context is ' + contextOkay);
+      if ((rule.block.indexOf(data[0] ? data[0].role : 'everyone') >= 0) && contextOkay) {
+        console.log('Disallowed. Blocking.');
+        $(rule.from.join(',')).remove();
         if (rule.custom) {
           rule.custom();
         }
       } else {
-        for (var i = 0; i < rule.from.length; i += 1) {
-          $(rule.from[i]).show();
-        }
+        console.log('Allowed. Fixing.');
+        $(rule.from.join(',')).show();
       }
+      //iterate to the next rule
       }
     });
     //end of after JSON function
@@ -102,6 +103,7 @@ blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
   from: ['body'],
   pages: [/.settings/],
+  where: 'everywhere'
 });
 
 blocker.enforce();
