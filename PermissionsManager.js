@@ -9,7 +9,7 @@ For help, contact the author: Derek Howard <howardder@missouri.edu>
 */
 
 
-var PermissionsManager = function () {
+var PermissionsManager = function() {
   this.elemBlockRules = [];
   this.pageBlockRules = [];
 }
@@ -20,13 +20,15 @@ PermissionsManager.addElementRule(Object) - Blocks users with certain roles from
   (PermissionsManager instance).addElementRule({
 	  block: ['(USER ROLE YOU WANT TO BLOCK)'],
 	  from: ['(jQuery selectors you want to block - must be hidden with CSS first)'],
+    pages: [/regex to match the window.location.pathname/],
 	  where: 'everywhere/exam (optional, defaults to everywhere)'
   });
   
 */
-PermissionsManager.prototype.addElementRule = function (rule) {
+PermissionsManager.prototype.addRule = function(rule) {
   rule.where = rule.where || 'everywhere';
   this.elemBlockRules.push(rule);
+  $(rule.from.join(',')).hide();
 }
 
 /*
@@ -34,46 +36,46 @@ PermissionsManager.addPageRule(Object) - Blocks users with certain roles from se
 
   (PermissionsManager instance).addPageRule({
 	  block: ['(USER ROLE YOU WANT TO BLOCK)'],
-	  from: [/regex to match the window.location.pathname/],
+	  
   });
   
 */
-PermissionsManager.prototype.addPageRule = function (rule) {
-  this.pageBlockRules.push(rule);
-}
 
-PermissionsManager.prototype.enforce = function () {
+PermissionsManager.prototype.enforce = function() {
   var self = this;
   var pathArray = window.location.pathname.split('/');
   //get the permissions of the current user
-  $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function (data) {
-    //loop through the rules
-    for (var h = 0; h < self.elemBlockRules.length; h += 1) {
-      var rule = self.elemBlockRules[h];
-      //The following line looks to see if the rule goes into effect everywhere, or if not,
-      //it checks to see if it is an exam by looking for the text "exam" or "final" on the page.
-      var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
-      //check if the rule applies, and if so remove the elements from the DOM
+  $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
+      //loop through the rules
+      for (var h = 0; h < self.elemBlockRules.length; h += 1) {
+        var rule = self.elemBlockRules[h];
+        //The following line looks to see if the rule goes into effect everywhere, or if not,
+        //it checks to see if it is an exam by looking for the text "exam" or "final" on the page.
+        var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
+        //check if the rule applies, and if so remove the elements from the DOM
+        if (rule.pages) {
+          for (var i = 0; i < rules.pages.length; i += 1) {
+            if (rule.pages[i].test(window.location.pathname)) {
+              contextOkay = true;
+            }
+          }
+        }
       if (rule.block.indexOf(data[0].role) >= 0 && contextOkay) {
         for (var i = 0; i < rule.from.length; i += 1) {
           $(rule.from[i]).remove();
         }
-      }
-    }
-    //loop through the URL blocking rules
-    for (var h = 0; h < self.pageBlockRules.length; h += 1) {
-      var rule = self.pageBlockRules[h];
-      //check if the rule applies, and if so overwrite the page with a permissions message.
-      if (rule.block.indexOf(data[0].role) >= 0) {
+        if (rule.custom) {
+          rule.custom();
+        }
+      } else {
         for (var i = 0; i < rule.from.length; i += 1) {
-          if (rule.from[i].test(window.location.pathname)) {
-            document.write("You don't have permission to view this page.");
-          }
+          $(rule.from[i]).show();
         }
       }
-    }
-  });
-}
+      }
+    });
+    //end of after JSON function
+  }
 
 
 /*************************/
@@ -84,21 +86,22 @@ PermissionsManager.prototype.enforce = function () {
 var blocker = new PermissionsManager();
 
 //prevent BR_Teachers/BR_Coordinators from seeing exam questions
-blocker.addElementRule({
+blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
   from: ['#right-side'],
   where: 'exam'
 });
 //prevent BR_Teachers/BR_Coordinators from seeing the Settings sub menu
-blocker.addElementRule({
+blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
   from: ['.settings'],
   where: 'everywhere'
 });
 //prevent BR_Teachers/BR_Coordinators from accessing the Settings page via URL
-blocker.addPageRule({
+blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
-  from: [/.settings/],
+  from: ['body'],
+  pages: [/.settings/],
 });
 
 blocker.enforce();
