@@ -67,7 +67,7 @@ PermissionsManager.prototype.enforce = function(data) {
       }
     } else {
       console.log('Allowed. Fixing.');
-      $(rule.from.join(',')).fadeIn();
+      $(rule.from.join(',')).show();
     }
     //iterate to the next rule
   }
