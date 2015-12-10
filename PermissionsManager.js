@@ -40,16 +40,15 @@ PermissionsManager.addPageRule(Object) - Blocks users with certain roles from se
   
 */
 
-PermissionsManager.prototype.enforce = function() {
+PermissionsManager.prototype.enforce = function(data) {
+	
   var self = this;
   var pathArray = window.location.pathname.split('/');
   var contextOkay = false;
   var locationOkay = false;
-  var i = 0;
-  var h = 0;
-  //get the permissions of the current user
-  $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
-    console.log('Got request...carrying on.');
+  	var i = 0;
+  	var h = 0;
+    
     console.log(data);
       for (h = 0; h < self.rules.length; h += 1) {
         console.log('Enforcing rule ' + (h+1));
@@ -79,9 +78,29 @@ PermissionsManager.prototype.enforce = function() {
       }
       //iterate to the next rule
       }
-    });
+      $('body').fadeIn();
+    };
+
+PermissionsManager.prototype.start = function() {
+  var self = this;
+  var pathArray = window.location.pathname.split('/');
+  var contextOkay = false;
+  var locationOkay = false;
+  var i = 0;
+  var h = 0;
+  //get the permissions of the current user
+  if (!localStorage.permissions) {
+  console.log('Need to make permissions request...carrying on.');
+   $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function (data) {
+  	localStorage.permissions = JSON.stringify(data);
+  	self.enforce(data);
+});
     //end of after JSON function
+  } else {
+  	console.log('Permissions found. Enforcing.');
+  	this.enforce(JSON.parse(localStorage.permissions));
   }
+}
 
 /*************************/
 /*      MU K12 Rules     */
@@ -110,4 +129,4 @@ blocker.addRule({
   where: 'everywhere'
 });
 
-blocker.enforce();
+blocker.start();
