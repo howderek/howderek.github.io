@@ -50,7 +50,7 @@ PermissionsManager.prototype.enforce = function(data) {
     	rule.pages.push(/quizzes/);
     }
     //check if the rule applies, and if so remove the elements from the DOM
-    if (rule.pages) {
+    if (typeof rule.pages === 'object' && rule.pages.length) {
       locationOkay = false;
       console.log('Checking URL....');
       for (i = 0; i < rule.pages.length; i += 1) {
@@ -80,10 +80,6 @@ PermissionsManager.prototype.enforce = function(data) {
 PermissionsManager.prototype.start = function() {
   var self = this;
   var pathArray = window.location.pathname.split('/');
-  var contextOkay = false;
-  var locationOkay = false;
-  var i = 0;
-  var h = 0;
   //get the permissions of the current user
   if (!localStorage.permissions && pathArray[2]) {
     console.log('Need to make permissions request...carrying on.');
