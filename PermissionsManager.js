@@ -43,11 +43,15 @@ PermissionsManager.addPageRule(Object) - Blocks users with certain roles from se
 PermissionsManager.prototype.enforce = function() {
   var self = this;
   var pathArray = window.location.pathname.split('/');
+  var contextOkay = false;
+  var locationOkay = false;
+  var i = 0;
+  var h = 0;
   //get the permissions of the current user
   $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
     console.log('Got request...carrying on.');
     console.log(data);
-      for (var h = 0; h < self.rules.length; h += 1) {
+      for (h = 0; h < self.rules.length; h += 1) {
         console.log('Enforcing rule ' + (h+1));
         var rule = self.rules[h]
         //The following line looks to see if the rule goes into effect everywhere, or if not,
@@ -55,15 +59,17 @@ PermissionsManager.prototype.enforce = function() {
         var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
         //check if the rule applies, and if so remove the elements from the DOM
         if (rule.pages) {
-          for (var i = 0; i < rule.pages.length; i += 1) {
-            if (rule.pages[i].test(window.location.pathname)) {
-              contextOkay = true;
-            }
+        	locationOkay = false;
+        	console.log('Checking URL....');
+          for (i = 0; i < rule.pages.length; i += 1) {
+            if (!locationOkay) locationOkay = rule.pages[i].test(window.location.pathname);
           }
+        } else {
+        	locationOkay = true;
         }
-        console.log('Context is ' + contextOkay);
+        console.log('Context is ' + contextOkay + ' and location is ' + locationOkay);
         //is this a rule we should enforce?
-      if ((rule.block.indexOf(data[0] ? data[0].role : 'everyone') >= 0) && contextOkay) {
+      if ((rule.block.indexOf(data[0] ? data[0].role : 'everyone') >= 0) && contextOkay && locationOkay) {
         console.log('Disallowed. Blocking.');
         if (rule.from) { $(rule.from.join(',')).remove(); }
         if (rule.custom) { rule.custom(); }
@@ -76,7 +82,6 @@ PermissionsManager.prototype.enforce = function() {
     });
     //end of after JSON function
   }
-
 
 /*************************/
 /*      MU K12 Rules     */
