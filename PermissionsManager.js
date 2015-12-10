@@ -81,19 +81,15 @@ PermissionsManager.prototype.start = function() {
   var self = this;
   var pathArray = window.location.pathname.split('/');
   //get the permissions of the current user
-  if (!localStorage.permissions && pathArray[2]) {
-    console.log('Need to make permissions request...carrying on.');
-    $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
+  if (localStorage.permissions) {
+    console.log('Permissions found. Enforcing.');
+    this.enforce(JSON.parse(localStorage.permissions));
+    $('body').css({visibility: 'visible'});
+  } else if (pathArray[2]) { $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
       localStorage.permissions = JSON.stringify(data);
       self.enforce(data);
       $('body').css({visibility: 'visible'});
     });
-    //end of after JSON function
-  } else {
-    console.log('Permissions found. Enforcing.');
-    this.enforce(JSON.parse(localStorage.permissions));
-    $('body').css({visibility: 'visible'});
-  }
 }
 
 /*************************/
