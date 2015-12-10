@@ -90,13 +90,13 @@ PermissionsManager.prototype.start = function() {
     $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
       localStorage.permissions = JSON.stringify(data);
       self.enforce(data);
-      $('body').show();
+      $('body').css({visibility: 'visible'});
     });
     //end of after JSON function
   } else {
     console.log('Permissions found. Enforcing.');
     this.enforce(JSON.parse(localStorage.permissions));
-    $('body').show();
+    $('body').css({visibility: 'visible'});
   }
 }
 
