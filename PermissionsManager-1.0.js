@@ -45,6 +45,10 @@ PermissionsManager.prototype.enforce = function(data) {
       //The following line looks to see if the rule goes into effect everywhere, or if not,
       //it checks to see if it is an exam by looking for the text "exam" or "final" on the page.
     var contextOkay = (rule.where === 'everywhere') ? true : (/(exam|final)/i.test(document.documentElement.textContent)) ? true : false;
+    if (rule.where === 'exam') {
+    	rule.pages = rule.pages || [];
+    	rule.pages.push(/quizzes/);
+    }
     //check if the rule applies, and if so remove the elements from the DOM
     if (rule.pages) {
       locationOkay = false;
