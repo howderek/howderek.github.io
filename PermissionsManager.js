@@ -90,6 +90,7 @@ PermissionsManager.prototype.start = function() {
       self.enforce(data);
       $('body').css({visibility: 'visible'});
     });
+  }
 }
 
 /*************************/
