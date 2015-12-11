@@ -85,7 +85,8 @@ PermissionsManager.prototype.start = function() {
     console.log('Permissions found. Enforcing.');
     this.enforce(JSON.parse(localStorage.permissions));
     $('body').css({visibility: 'visible'});
-  } else if (pathArray[2]) { $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
+  }
+  if (pathArray[2]) { $.getJSON('/api/v1/courses/' + pathArray[2] + '/enrollments?user_id=self', function(data) {
       localStorage.permissions = JSON.stringify(data);
       self.enforce(data);
       $('body').css({visibility: 'visible'});
