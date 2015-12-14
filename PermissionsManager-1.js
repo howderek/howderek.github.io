@@ -27,7 +27,7 @@ PermissionsManager.addElementRule(Object) - Blocks users with certain roles from
 PermissionsManager.prototype.addRule = function(rule) {
   rule.where = rule.where || 'everywhere';
   this.rules.push(rule);
-  $(rule.from.join(',')).hide();
+  if (rule.from) $(rule.from.join(',')).hide();
 }
 
 PermissionsManager.prototype.enforce = function(data) {
@@ -67,7 +67,7 @@ PermissionsManager.prototype.enforce = function(data) {
         $(rule.from.join(',')).remove();
       }
       if (rule.custom) {
-        rule.custom();
+        rule.custom(data);
       }
     } else {
       console.log('Allowed. Fixing.');
@@ -101,6 +101,19 @@ PermissionsManager.prototype.start = function() {
 //The instance of the PermissionsManager we can use
 var blocker = new PermissionsManager();
 
+//add SpeedGrader link
+blocker.addRule({
+  block: ['BR_Teacher', 'BR_Coordinator'],
+  pages: [/assignments/],
+  where: 'everywhere',
+  custom: function () {
+    var pathArray = window.location.pathname.split('/');
+    //see if we already made the link 
+    if (!$('#assignment-speedgrader-link').length) {
+      $('#sidebar_content ul').append('<li id="assignment-speedgrader-link"><a target="_blank" href="/courses/' + pathArray[2] + '/gradebook/speed_grader?assignment_id=' + pathArray[4] + '" class="icon-speed-grader">SpeedGrader™</a></li>');
+    }  
+  }
+});
 //prevent BR_Teachers/BR_Coordinators from seeing exam questions
 blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
@@ -120,5 +133,6 @@ blocker.addRule({
   pages: [/.settings/],
   where: 'everywhere'
 });
+
 
 blocker.start();
