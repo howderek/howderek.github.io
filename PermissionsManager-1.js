@@ -71,7 +71,7 @@ PermissionsManager.prototype.enforce = function(data) {
       }
     } else {
       console.log('Allowed. Fixing.');
-      $(rule.from.join(',')).show();
+      if (rule.from) $(rule.from.join(',')).show();
     }
     //iterate to the next rule
   }
@@ -131,6 +131,13 @@ blocker.addRule({
   block: ['BR_Teacher', 'BR_Coordinator'],
   from: ['#wrapper'],
   pages: [/.settings/],
+  where: 'everywhere'
+});
+//prevent BR_Teachers/BR_Coordinators from accessing rubric on SpeedGrader
+blocker.addRule({
+  block: ['BR_Teacher', 'BR_Coordinator'],
+  from: ['#right_side #rubric_assessments_list_and_edit_button_holder .button-container'],
+  pages: [/speed/],
   where: 'everywhere'
 });
 
