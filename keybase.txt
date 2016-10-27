@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/howderek
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://howderek.com
+  * I am howderek (https://keybase.io/howderek) on keybase.
+  * I have a public key with fingerprint A39B D044 A2CE F8DF 9BE3  28A3 7EBC 934D 7A59 49E9
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101205f1180d0a7d4c812a84c0636206ce4ebdf6106f4247b8d2fe39fe328332b3e0a",
+            "fingerprint": "a39bd044a2cef8df9be328a37ebc934d7a5949e9",
+            "host": "keybase.io",
+            "key_id": "7ebc934d7a5949e9",
+            "kid": "0101205f1180d0a7d4c812a84c0636206ce4ebdf6106f4247b8d2fe39fe328332b3e0a",
+            "uid": "72b60033e26ceddcd9ff7ebfd64e5719",
+            "username": "howderek"
+        },
+        "service": {
+            "hostname": "howderek.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1477583795,
+    "expire_in": 157680000,
+    "prev": "f579b1f42811a5fa86226bcca8911e680e13991c212c3b064174d459dac83045",
+    "seqno": 16,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.58
+Comment: https://keybase.io/crypto
+
+yMIeAnicrVJbSBVBGD7HWx41yZPdoMIm6KHEdnZnb0YlSQhJZg9BYXLYnZk9rkfP
+ns5Zb4iRFBlkBZJdLMvqJbKH7pFZaUg+iNoFHxTpamVUdnmIFKVmrV6ixwaGYf75
+bv/PdM2MdiW4YUvOq4nJpgZ3T+exMtdW79Kr1UC3SBXIrAYBOn3QEkIjti9gEpAJ
+OMhBnhMNCBWOcJpMEFYgrykIc5Ig8ZyEKaI6MSTISQbikawrhDeooLLNK4LA6wLl
+NJAODDPop+FQ2AzaTFYTVJ1wCGk8poZCDFV34JogUx2rAiKyJqpIpSojFlkRh8HC
+6VqEZpgWq7GLbzreP/D/OXfZLx9elzhOECjPiIRgohoG8zaIhKgoQ8e3LELDQa2U
+MnSRVUFomAZATTpg1XITU2ewTid/ITKwVcq4obBlW9gqcV5sOxTJdJh2VciBVlDd
+91vEp5tBwubIGOU0HDGtIMiEDIlt01GFSJZFRZBVMR3QypAZpj7TQYiypHBsOT60
+nEkaoqzqkLWtQKiJhqZIPC/pGGuKCiFlYAoFVYWYhzwWdE5CUEYEiSrRsCJwSARO
+WzuCFtOWWE7NzzQjpj+o2WVhCmrud2yPcbkTXHGxUc4HcyV4Zv35dgNivKshuWek
+wz26bxSc8T+89WzR3sXrT4V+TLy5FFU11T/61hPM6D+/6VqfBJ/ukYHunbeiIWld
+tvUaX2wePjG2rSfXu2p4QS/6MOBtTHs+CfIbe10v+xaO50hpScXdfbFTNwdDWehj
+qHAwudF/0izwHIo52PQipb59J24Yar7cRbJSH01seC/uXpMXf2Yg7WwKf7tyYwwx
+bPcQKuxuXl6bE/c5VW2NCI/n1975/sl7N7GWBx3v6u/V5yrxpzuz88fOdbe3rT5Q
+UDe+8snh64kFEy0Pir9Fbcnd7PkSFziyv+5KWvmcuWuP72rLa/vac7TjgrjsxsgS
+dXgGnT1c15oVnT70E+wfP6w=
+=itQC
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/howderek
+
+==================================================================
